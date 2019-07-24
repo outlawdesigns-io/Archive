@@ -2,7 +2,7 @@
 
 class Archive{
   public static $archiveTypes = array('rar','zip','7z');
-  public $unpackMethods = array('unp','unzip','p7zip -d');
+  public static $unpackMethods = array('unp','unzip','p7zip -d');
 
   public function __construct(){}
 
