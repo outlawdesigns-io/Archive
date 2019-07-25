@@ -44,6 +44,7 @@ class Archive{
     }
   }
   public static function validateOutput($output){
+    echo $output . "\n";
     return true;
   }
 }
