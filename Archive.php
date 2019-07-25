@@ -25,9 +25,9 @@ class Archive{
       $output = shell_exec($unpackMethod . escapeshellarg($absolutePath) . " 2>&1");
     }
     if(!self::validateOutput($output)){
-      return false;
+      throw new Exception($output);
     }
-    return true;
+    return $output;
   }
   public static function getDestinationArg($archiveType){
     switch($archiveType){
