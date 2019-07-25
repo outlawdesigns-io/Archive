@@ -31,10 +31,10 @@ class Archive{
         return " ";
       break;
       case self::$archiveTypes[1]:
-        return "-d ";
+        return " -d ";
       break;
       case self::$archiveTypes[2]:
-        return "-o";
+        return " -o";
       break;
       default:
         throw new Exception("No Support For " . $archiveType);
