@@ -2,7 +2,7 @@
 
 class Archive{
   public static $archiveTypes = array('rar','zip','7z');
-  public static $unpackMethods = array('unrar -x','unzip','7zr x');
+  public static $unpackMethods = array('unrar -x ','unzip ','7zr x ');
 
   public function __construct(){}
 
@@ -19,9 +19,12 @@ class Archive{
       }catch(Exception $e){
         throw new Exception($e->getMessage());
       }
-      $output = shell_exec($unpackMethod . " " . escapeshellarg($absolutePath) . $destinationArg . $destination);
+      $output = shell_exec($unpackMethod . escapeshellarg($absolutePath) . $destinationArg . $destination . " 2>&1");
     }else{
-      $output = shell_exec($unpackMethod . " " . escapeshellarg($absolutePath));
+      $output = shell_exec($unpackMethod . escapeshellarg($absolutePath) . " 2>&1");
+    }
+    if(!self::validateOutput($output)){
+      return false;
     }
     return true;
   }
@@ -39,5 +42,8 @@ class Archive{
       default:
         throw new Exception("No Support For " . $archiveType);
     }
+  }
+  public static function validateOutput($output){
+    return true;
   }
 }
