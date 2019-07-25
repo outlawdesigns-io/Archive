@@ -1,6 +1,7 @@
 <?php
 
 class Archive{
+  const NOSUPT = 'No Support For ';
   public static $archiveTypes = array(
     'rar',
     'zip',
@@ -35,7 +36,7 @@ class Archive{
   public static function extract($absolutePath, $destination = ""){
     $unpackIndex = array_search(pathinfo($absolutePath)['extension'],self::$archiveTypes);
     if($unpackIndex === false){
-      throw new \Exception('No Support For ' . pathinfo($absolutePath)['extension']);
+      throw new \Exception(self::NOSUPT . pathinfo($absolutePath)['extension']);
     }else{
       $unpackMethod = self::$unpackMethods[$unpackIndex];
     }
@@ -72,7 +73,7 @@ class Archive{
         return " -C ";
       break;
       default:
-        throw new Exception("No Support For " . $archiveType);
+        throw new Exception(self::NOSUPT . $archiveType);
     }
   }
   public static function validateOutput($output){
@@ -86,7 +87,7 @@ class Archive{
   public static function create($archive,$input){
     $packIndex = array_search(pathinfo($archive)['extension'],self::$archiveTypes);
     if($packIndex === false || $packIndex == 0){
-      throw new \Exception('No Support For ' . pathinfo($absolutePath)['extension']);
+      throw new \Exception(self::NOSUPT . pathinfo($absolutePath)['extension']);
     }else{
       $packMethod = self::$packMethods[$packIndex];
     }
