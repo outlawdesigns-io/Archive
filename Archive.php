@@ -3,6 +3,7 @@
 class Archive{
   public static $archiveTypes = array('rar','zip','7z');
   public static $unpackMethods = array('unrar -x ','unzip ','7zr x ');
+  public static $errorPatterns = array("/cannot/i","/unknown/i","/error/i");
 
   public function __construct(){}
 
@@ -44,7 +45,11 @@ class Archive{
     }
   }
   public static function validateOutput($output){
-    echo $output . "\n";
+    foreach(self::$errorPatterns as $errorPattern){
+      if(preg_match($errorPattern,$output)){
+        return false;
+      }
+    }
     return true;
   }
 }
