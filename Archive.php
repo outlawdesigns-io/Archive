@@ -19,7 +19,7 @@ class Archive{
       }catch(Exception $e){
         throw new Exception($e->getMessage());
       }
-      $output = shell_exec($unpackMethod . " " . $destinationArg . escapeshellarg($absolutePath));
+      $output = shell_exec($unpackMethod . " " . escapeshellarg($absolutePath) . $destinationArg . $destination);
     }else{
       $output = shell_exec($unpackMethod . " " . escapeshellarg($absolutePath));
     }
@@ -28,7 +28,7 @@ class Archive{
   public static function getDestinationArg($archiveType){
     switch($archiveType){
       case self::$archiveTypes[0]:
-        return "";
+        return " ";
       break;
       case self::$archiveTypes[1]:
         return "-d ";
