@@ -15,7 +15,20 @@ class Archive{
     'tar xvzf ',
     'tar xvzf '
   );
-  public static $errorPatterns = array("/cannot/i","/unknown/i","/error/i");
+  public static $packMethods = array(
+    '',
+    'zip -r ',
+    '7zr a ',
+    'tar -czvf ',
+    'tar -czvf '
+  );
+  public static $errorPatterns = array(
+    "/cannot/i",
+    "/unknown/i",
+    "/error/i",
+    "/failure/i",
+    "/warning/i"
+  );
 
   public function __construct(){}
 
@@ -70,4 +83,18 @@ class Archive{
     }
     return true;
   }
+  public static function create($archive,$input){
+    $packIndex = array_search(pathinfo($archive)['extension'],self::$archiveTypes);
+    if($packIndex === false || $packIndex == 0){
+      throw new \Exception('No Support For ' . pathinfo($absolutePath)['extension']);
+    }else{
+      $packMethod = self::$packMethods[$packIndex];
+    }
+    $output = shell_exec($packMethod . escapeshellarg($archive) . " " . escapeshellarg($input) . " 2>&1");
+    if(!self::validateOutput($output)){
+      throw new Exception($output);
+    }
+    return $output;
+  }
+  public static function add($archive,$file){}
 }
