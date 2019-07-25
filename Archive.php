@@ -1,8 +1,20 @@
 <?php
 
 class Archive{
-  public static $archiveTypes = array('rar','zip','7z');
-  public static $unpackMethods = array('unrar -x ','unzip ','7zr x ');
+  public static $archiveTypes = array(
+    'rar',
+    'zip',
+    '7z',
+    'tar',
+    'gz'
+  );
+  public static $unpackMethods = array(
+    'unrar -x ',
+    'unzip ',
+    '7zr x ',
+    'tar xvzf ',
+    'tar xvzf '
+  );
   public static $errorPatterns = array("/cannot/i","/unknown/i","/error/i");
 
   public function __construct(){}
@@ -39,6 +51,12 @@ class Archive{
       break;
       case self::$archiveTypes[2]:
         return " -o";
+      break;
+      case self::$archiveTypes[3]:
+        return " -C ";
+      break;
+      case self::$archiveTypes[4]:
+        return " -C ";
       break;
       default:
         throw new Exception("No Support For " . $archiveType);
